@@ -1,22 +1,14 @@
 package com.discussion.forum.entities;
 
 import lombok.Data;
-import org.hibernate.annotations.GenericGenerator;
-
-import javax.persistence.*;
-import java.util.List;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
 
 @Data
-@Entity
+@Document
 public class User {
 
     @Id
-    @GeneratedValue(generator = "UUID")
-    @GenericGenerator(
-            name = "UUID",
-            strategy = "org.hibernate.id.UUIDGenerator"
-    )
-    @Column(updatable = false, nullable = false)
     private String id;
 
     private String name;
@@ -27,11 +19,21 @@ public class User {
 
     private String collageName;
 
-    @ManyToOne
-    @JoinColumn(name = "course_id", nullable = false)
     private Course course;
 
     private Integer semester;
+
+
+    public static class Course {
+
+        @Id
+        private String id;
+
+        private String name;
+
+        private Integer noOfSemesters;
+
+    }
 
 }
 

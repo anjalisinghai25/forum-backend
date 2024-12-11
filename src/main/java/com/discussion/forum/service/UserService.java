@@ -8,6 +8,7 @@ import com.discussion.forum.exception.ResourceNotFoundException;
 import com.discussion.forum.repository.CourseRepository;
 import com.discussion.forum.repository.UserRepository;
 import com.discussion.forum.utils.JwtUtil;
+import com.discussion.forum.utils.Utils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -45,7 +46,7 @@ public class UserService {
             user.setName(requestDTO.getName());
             user.setPassword(requestDTO.getPassword());
             user.setCollageName(requestDTO.getCollageName());
-            user.setCourse(courseRepository.findById(requestDTO.getCousreId()).orElseThrow(() -> new ResourceNotFoundException("Course not found with id " + requestDTO.getCousreId())));
+            user.setCourse(Utils.mapValue(courseRepository.findById(requestDTO.getCousreId()).orElseThrow(() -> new ResourceNotFoundException("Course not found with id " + requestDTO.getCousreId())), User.Course.class));
             user.setSemester(requestDTO.getSemester());
 
             User save = userRepository.save(user);

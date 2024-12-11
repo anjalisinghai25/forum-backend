@@ -3,27 +3,20 @@ package com.discussion.forum.entities;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
-import org.hibernate.annotations.GenericGenerator;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
 
-import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.List;
 
 @Data
-@Entity
+@Document
 public class Discussion {
 
     @Id
-    @GeneratedValue(generator = "UUID")
-    @GenericGenerator(
-            name = "UUID",
-            strategy = "org.hibernate.id.UUIDGenerator"
-    )
-    @Column(updatable = false, nullable = false)
     private String id;
 
-    @ManyToOne
-    @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
     private String description;
@@ -31,12 +24,33 @@ public class Discussion {
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime createdOn;
 
-    @OneToMany(mappedBy = "discussion", cascade = CascadeType.ALL)
+
     private List<Comment> comments;
 
-    @PrePersist
     protected void onCreate() {
         createdOn = LocalDateTime.now();
+    }
+
+    @Data
+    public class Comment {
+        @Id
+        private String id;
+        private User user;
+
+        private String comment;
+        @CreatedDate
+        private LocalDateTime createdOn;
+
+
+        @Data
+        public static class Users {
+            @Id
+            private String id;
+            private String name;
+            private String mobile;
+            private String email;
+        }
+
     }
 
 }

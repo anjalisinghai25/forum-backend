@@ -2,34 +2,22 @@ package com.discussion.forum.entities;
 
 
 import lombok.Data;
-import org.hibernate.annotations.GenericGenerator;
+import org.springframework.data.mongodb.core.mapping.Document;
 
-import javax.persistence.*;
 
 @Data
-@Entity
+@Document
 public class Material {
 
-    @Id
-    @GeneratedValue(generator = "UUID")
-    @GenericGenerator(
-            name = "UUID",
-            strategy = "org.hibernate.id.UUIDGenerator"
-    )
-    @Column(updatable = false, nullable = false)
+
     private String id;
 
-    @ManyToOne
-    @JoinColumn(name = "course_id", nullable = false)
     private Course course;
 
     private Integer semester;
 
-    @ManyToOne
-    @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
-    @Enumerated(EnumType.STRING)
     private MaterialType type;
 
     private String fileUrl;

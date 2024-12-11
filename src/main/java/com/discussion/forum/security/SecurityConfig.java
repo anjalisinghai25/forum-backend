@@ -32,27 +32,26 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http.cors().and().csrf().disable()
                 .authorizeRequests()
                 .antMatchers("/swagger-ui/**", "/v3/api-docs/**").permitAll()
-                .antMatchers(HttpMethod.POST, "/api/users").permitAll()
-                .antMatchers(HttpMethod.POST, "/v2/mdm/link/**").permitAll()
+                .antMatchers(HttpMethod.GET, "/api/users").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .addFilterBefore(requestFilter, UsernamePasswordAuthenticationFilter.class);
     }
 
-    @Bean
-    CorsWebFilter corsWebFilter() {
-        CorsConfiguration corsConfig = new CorsConfiguration();
-        corsConfig.setAllowedOrigins(Arrays.asList("*"));
-        corsConfig.addAllowedMethod("*");
-        corsConfig.setAllowCredentials(false);
-        corsConfig.addAllowedHeader("*");
-
-        UrlBasedCorsConfigurationSource source =
-                new UrlBasedCorsConfigurationSource();
-        source.registerCorsConfiguration("/**", corsConfig);
-
-        return new CorsWebFilter(source);
-    }
+//    @Bean
+//    CorsWebFilter corsWebFilter() {
+//        CorsConfiguration corsConfig = new CorsConfiguration();
+//        corsConfig.setAllowedOrigins(Arrays.asList("*"));
+//        corsConfig.addAllowedMethod("*");
+//        corsConfig.setAllowCredentials(false);
+//        corsConfig.addAllowedHeader("*");
+//
+//        UrlBasedCorsConfigurationSource source =
+//                new UrlBasedCorsConfigurationSource();
+//        source.registerCorsConfiguration("/**", corsConfig);
+//
+//        return new CorsWebFilter(source);
+//    }
 
     @Bean
     public PasswordEncoder passwordEncoder() {
